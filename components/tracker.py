@@ -18,7 +18,7 @@ class Tracker:
         # cv2.namedWindow('frame')
 
     def load(self , file_name):
-        file_name = 'colors/' + file_name
+        file_name = './colors/' + file_name
         with open(file_name + '_lower.pkl' , 'rb') as f:
             self.lower_bound = pickle.load(f)
         with open(file_name + '_upper.pkl' , 'rb') as f:
