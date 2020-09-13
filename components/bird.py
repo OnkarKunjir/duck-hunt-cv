@@ -1,4 +1,8 @@
 import random
+
+# TODO : make bird fly indipendent of frame rate 
+import time 
+
 class Bird:
     def __init__(self , x , y , sky_width , sky_height):
         # to check if bird is out of screen and initalize positon 
@@ -25,11 +29,12 @@ class Bird:
 
 
     def move(self):
-        #self.y -= 1
-        #self.x += self.x_direction
+        #time.sleep(0.01)
+        self.y -= 1
+        self.x += self.x_direction
 
-        self.y -= 0
-        self.x += 0
+        #self.y -= 0
+        #self.x += 0
 
         if (self.x + self.size[0] < 0 or self.x > self.sky_width)  and self.y + self.size[1] < 0:
             self.is_out_of_frame = True

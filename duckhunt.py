@@ -3,12 +3,15 @@ from components.static import Ground , Sky
 from components.rifle import Rifle
 from components.bird import Bird
 
-# TODO : // use threading this shit is slow af.
+# TODO : use threading this shit is slow af.
+# TODO : scale the tracker input to handle bigger game screen. 
 
 class DuckHunt:
     def __init__(self):
         # initalize pygame and screen
         pygame.init()
+        pygame.font.init()
+        self.font = pygame.font.Font(pygame.font.get_default_font() , 30)
         
         self.display_width = 640
         self.display_height = 480
@@ -33,6 +36,7 @@ class DuckHunt:
         
     def __del__(self):
         pygame.quit()
+        pygame.font.quit()
     
     def triggerHandler(self , x , y):
         # function to be executed when trigger is pulled 
@@ -48,15 +52,25 @@ class DuckHunt:
             self.test_bird.reset()
 
 
-
-
     def drawFrame(self):
+        # drawing ground 
         pygame.draw.rect(self.display , self.ground.color , self.ground.getRect())
+        # drawing sky
         pygame.draw.rect(self.display , self.sky.color , self.sky.getRect())
+        # drawing bird
         pygame.draw.rect(self.display , self.test_bird.color , self.test_bird.getRect())
+
+        # drawing the cursor 
         # for testing purposes
-        pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPosExp(pygame.mouse.get_pos() , pygame.mouse.get_pressed()[0]) , self.rifle.point_radius )
-        #pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPos() , self.rifle.point_radius )
+        #pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPosExp(pygame.mouse.get_pos() , pygame.mouse.get_pressed()[0]) , self.rifle.point_radius )
+        pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPos() , self.rifle.point_radius )
+
+
+        # displaying the scrender(text, antialias, color, background=None)ore
+        text = self.font.render(str(self.score) , True , (255 , 255 , 255) , (0 , 0, 0))
+        self.display.blit(text , (40 , self.display_height - 40 ))
+
+        
         pygame.display.update()
 
     def eventHandler(self , event):
