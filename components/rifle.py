@@ -13,13 +13,13 @@ class Rifle:
 
         self.prev = False
 
-    #def getPos(self , pos , shoot):
-    #    self.x , self.y  = pos
-    #    if shoot:
-    #        if not self.prev:
-    #            self.triggerHandler(self.x , self.y)
-    #    self.prev = shoot
-    #    return (self.x , self.y)
+    def getPosExp(self , pos , shoot):
+        self.x , self.y  = pos
+        if shoot:
+            if not self.prev:
+                self.triggerHandler(self.x , self.y)
+        self.prev = shoot
+        return (self.x , self.y)
 
     def getPos(self):
         sight , trigger = self.tracker.getPos()
