@@ -6,6 +6,7 @@ def nothing(x):
     pass
 
 def dump(lower_bound , upper_bound , file_name):
+    file_name = './colors/'+file_name
     with open(file_name + '_lower.pkl' , 'wb') as f:
         pickle.dump(lower_bound , f)
     with open(file_name + '_upper.pkl' , 'wb') as f:

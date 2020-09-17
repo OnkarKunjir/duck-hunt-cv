@@ -13,8 +13,11 @@ class DuckHunt:
         pygame.font.init()
         self.font = pygame.font.Font(pygame.font.get_default_font() , 30)
         
-        self.display_width = 640
-        self.display_height = 480
+        #self.display_width = 640
+        #self.display_height = 480
+
+        self.display_width = 1000
+        self.display_height = 1000
         self.display = pygame.display.set_mode((self.display_width , self.display_height))
         pygame.display.set_caption('Duck Hunt')
 
@@ -28,7 +31,7 @@ class DuckHunt:
 
         self.sky = Sky(display = (self.display_width , self.display_height) , sky_height =  self.display_height - self.ground.size[1] )
 
-        self.rifle =  Rifle(self.display_width//2 , self.display_height//2 , self.triggerHandler)
+        self.rifle =  Rifle(self.display_width , self.display_height , self.triggerHandler)
 
         self.test_bird = Bird(300 , 300 ,self.display_width , self.sky.size[1]  )
 
@@ -37,12 +40,16 @@ class DuckHunt:
     def __del__(self):
         pygame.quit()
         pygame.font.quit()
+
     
     def triggerHandler(self , x , y):
         # function to be executed when trigger is pulled 
+        print('--called--')
         if x >= self.test_bird.x and x <= self.test_bird.x + self.test_bird.size[0]:
+            print('--corrent X--')
             if y >= self.test_bird.y and y <= self.test_bird.y + self.test_bird.size[1]:
                 self.test_bird.gotShot()
+                print('--hit--')
         
     def updateScore(self):
         if self.test_bird.is_shot:
@@ -62,8 +69,10 @@ class DuckHunt:
 
         # drawing the cursor 
         # for testing purposes
-        #pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPosExp(pygame.mouse.get_pos() , pygame.mouse.get_pressed()[0]) , self.rifle.point_radius )
-        pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPos() , self.rifle.point_radius )
+        # pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPosExp(pygame.mouse.get_pos() , pygame.mouse.get_pressed()[0]) , self.rifle.point_radius )
+        #pygame.draw.circle(self.display , self.rifle.color , self.rifle.scalePointerExp(pygame.mouse.get_pos() , pygame.mouse.get_pressed()[0]) , self.rifle.point_radius )
+        # pygame.draw.circle(self.display , self.rifle.color , self.rifle.getPos() , self.rifle.point_radius )
+        pygame.draw.circle(self.display , self.rifle.color , self.rifle.scalePointer() , self.rifle.point_radius )
 
 
         # displaying the scrender(text, antialias, color, background=None)ore
