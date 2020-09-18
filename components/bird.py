@@ -32,9 +32,9 @@ class Bird:
 
     def move(self):
         if self.is_shot:
-            self.y += 5
+            self.y += 2
         else:
-            self.y -= 5
+            self.y -= 2
             self.x += self.x_direction
             if not self.changed_x:
                 if random.random() > 0.9:
