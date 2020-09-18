@@ -24,8 +24,16 @@ class Rifle:
         sight , trigger = self.tracker.getPos()
         if sight:
                 self.x , self.y = (sight[0] + sight[2] , sight[1] + sight[3] )
-                self.x = int((self.display_height * self.x)  /  video_height)
-                self.y = int((self.display_width * self.y ) /  video_width)
+
+                # scaling the pointer 
+                # new_value = ( (old_value - old_min) / (old_max - old_min) ) * (new_max - new_min) + new_min
+                self.x = int( (self.display_width / video_width) * self.x )
+                self.y = int( (self.display_height / video_height) * self.y )
+                # OLD 
+                # self.x = int((self.display_height * self.x)  /  video_height)
+                # self.y = int((self.display_width * self.y ) /  video_width)
+
+
                 if trigger:
                     self.loaded = True
                 elif self.loaded:

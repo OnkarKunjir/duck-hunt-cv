@@ -12,9 +12,18 @@ class DuckHunt:
         pygame.font.init()
         self.font = pygame.font.Font(pygame.font.get_default_font() , 30)
         
-        self.display_width = 1000
-        self.display_height = 1000
+        self.display_width = 859
+        self.display_height = 442
         self.display = pygame.display.set_mode((self.display_width , self.display_height))
+
+        # images
+        self.background = pygame.image.load('background.png').convert() # background image of the game
+        self.bird_wings_down = pygame.image.load('duck_wings_down.png').convert_alpha()
+        self.bird_wings_up = pygame.image.load('duck_wings_up.png').convert_alpha()
+        self.falling_duck = pygame.image.load('falling_duck.png').convert_alpha()
+        self.wings_up = True
+        self.is_falling = False 
+
         pygame.display.set_caption('Duck Hunt')
 
         self.render_next_frame = True
@@ -25,6 +34,10 @@ class DuckHunt:
         self.rifle =  Rifle(self.display_width , self.display_height , self.triggerHandler)
         self.test_bird = Bird(300 , 300 ,self.display_width , self.sky.size[1]  )
         self.score = 0
+
+        if self.test_bird.x_direction < 0:
+            self.bird_wings_down = pygame.transform.flip(self.bird_wings_down , True , False)
+            self.bird_wings_up  = pygame.transform.flip(self.bird_wings_up , True , False)
         
     def __del__(self):
         pygame.quit()
@@ -38,25 +51,46 @@ class DuckHunt:
                 self.test_bird.gotShot()
                 
     def updateScore(self):
-        if self.test_bird.is_shot:
+        old_direction = self.test_bird.x_direction < 0
+
+        if self.test_bird.is_shot and not self.is_falling:
             self.score += 1
-            self.test_bird.reset()
+            # self.test_bird.reset()
+            self.is_falling = True
+
         elif self.test_bird.is_out_of_frame:
             self.test_bird.reset()
+            self.is_falling = False
 
+        new_direction = self.test_bird.x_direction < 0
+
+        if new_direction != old_direction:
+            self.bird_wings_down = pygame.transform.flip(self.bird_wings_down , True , False)
+            self.bird_wings_up  = pygame.transform.flip(self.bird_wings_up , True , False)
+
+    
 
     def drawFrame(self):
+        self.display.blit(self.background , (0 , 0))
         # drawing ground 
-        pygame.draw.rect(self.display , self.ground.color , self.ground.getRect())
+        # pygame.draw.rect(self.display , self.ground.color , self.ground.getRect())
         # drawing sky
-        pygame.draw.rect(self.display , self.sky.color , self.sky.getRect())
+        # pygame.draw.rect(self.display , self.sky.color , self.sky.getRect())
         # drawing bird
-        pygame.draw.rect(self.display , self.test_bird.color , self.test_bird.getRect())
+        # pygame.draw.rect(self.display , self.test_bird.color , self.test_bird.getRect())
+        if self.is_falling:
+            self.display.blit(self.falling_duck , self.test_bird.getRect())
+        else:
+            if self.wings_up:
+                self.display.blit(self.bird_wings_up , self.test_bird.getRect())
+            else:
+                self.display.blit(self.bird_wings_down , self.test_bird.getRect())
+            self.wings_up = not self.wings_up
 
         # drawing the cursor 
         pygame.draw.circle(self.display , self.rifle.color , self.rifle.scalePointer() , self.rifle.point_radius )
         # for testing purposes
-        #pygame.draw.circle(self.display , self.rifle.color , self.rifle.scalePointerExp(pygame.mouse.get_pos() , pygame.mouse.get_pressed()[0]) , self.rifle.point_radius )
+        # pygame.draw.circle(self.display , self.rifle.color , self.rifle.scalePointerExp(pygame.mouse.get_pos() , pygame.mouse.get_pressed()[0]) , self.rifle.point_radius )
           
         # render text
         text = self.font.render(str(self.score) , True , (255 , 255 , 255) , (0 , 0, 0))
