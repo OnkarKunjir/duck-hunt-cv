@@ -15,6 +15,7 @@ class Bird:
         self.size = (40 , 40)
         self.is_shot = False
         self.x_direction = random.choice([-5 , 5 , -4 , 4 , -3 , 3]) # direction in which bird flies (right , left)
+        self.changed_x = False 
 
         self.is_out_of_frame = False
 
@@ -26,15 +27,20 @@ class Bird:
         self.is_shot = False
         self.x_direction = random.choice([-5 , 5 , -4 , 4 , -3 , 3 ]) # direction in which bird flies (right , left)
         self.is_out_of_frame = False
+        self.changed_x = False
 
 
     def move(self):
         if self.is_shot:
-            self.y += 1
+            self.y += 5
         else:
-            self.y -= 0
-            # self.x += self.x_direction
-
+            self.y -= 5
+            self.x += self.x_direction
+            if not self.changed_x:
+                if random.random() > 0.9:
+                    self.changed_x = True
+                    self.x_direction = - self.x_direction
+            
         # checking if the bird is out of frame 
         if (self.x + self.size[0]) < 0 or self.x > self.sky_width:
             # x coordinate is out of frame
