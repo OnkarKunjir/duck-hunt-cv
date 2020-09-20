@@ -4,7 +4,7 @@ from components.rifle import Rifle
 from components.bird import Bird
 
 # TODO : use threading this shit is slow af.
-
+# TODO : add music to make it more intresting.
 class DuckHunt:
     def __init__(self):
         # component initalization
@@ -18,11 +18,11 @@ class DuckHunt:
         self.display = pygame.display.set_mode((self.display_width , self.display_height))
 
         # images.
-        self.background = pygame.image.load('background.png').convert() # background image of the game
-        self.bird_wings_down = pygame.image.load('duck_wings_down.png').convert_alpha()
-        self.bird_wings_up = pygame.image.load('duck_wings_up.png').convert_alpha()
-        self.falling_duck = pygame.image.load('falling_duck.png').convert_alpha()
-        self.start_image = pygame.image.load('start.png').convert_alpha()
+        self.background = pygame.image.load('assets/background.png').convert() # background image of the game
+        self.bird_wings_down = pygame.image.load('assets/duck_wings_down.png').convert_alpha()
+        self.bird_wings_up = pygame.image.load('assets/duck_wings_up.png').convert_alpha()
+        self.falling_duck = pygame.image.load('assets/falling_duck.png').convert_alpha()
+        self.start_image = pygame.image.load('assets/start.png').convert_alpha()
         self.wings_up = True
         self.is_falling = False 
 
